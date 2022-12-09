@@ -1,20 +1,34 @@
 #pragma once
-using namespace std;
+
 template <typename T> 
 class Node
 {
 public:
-	Node() {};
-	Node(const T& object);
-	void LinkNextTo(const Node<T>& previousNode);
-	void LinkBefore(const Node<T>& nextNode);
-	T& GetValue()const;
-	Node <T>& GetNext()const;
-	Node <T>& GetPrevious()const;
+	Node(const T& object)
+	{
+		_object = &object;
+		_next = nullptr;
+		_previous = nullptr;
+	}
+	
+	void LinkNextTo(Node<T>& previousNode)
+	{
+		_previous = &previousNode;
+		previousNode._next = this;
+	}
+	
+	void LinkBefore(Node<T>& nextNode)
+	{
+		_next = &nextNode;
+		nextNode._previous = this;
+	}
+	
+	const T& GetValue() const { return *_object; }
+	Node<T>& GetNext() const { return *_next; }
+	Node<T>& GetPrevious() const { return *_previous; }
 private:
 	Node* _next;
 	Node* _previous;
-	T* _object;
+	const T* _object = nullptr;
 };
-
 
